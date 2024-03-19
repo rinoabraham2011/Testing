@@ -5,27 +5,27 @@ on:
 
 jobs:
   build:
-    runs-on: [arc-runner] # our new runner set
+    runs-on: [kaniko-worker]
     container:
-      image: gcr.io/kaniko-project/executor:debug # the kaniko image
+      image: gcr.io/kaniko-project/executor:debug
     permissions:
-      contents: read # read the repository
-      packages: write # push to GHCR, omit if not pushing to GitHub's container registry
+      contents: read
+      packages: write
 
     steps:
       - name: Build and push container test
         run: |
-          # Write config file, change to your destination registry
+          # Write config file
           AUTH=$(echo -n ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} | base64)
           echo "{\"auths\": {\"ghcr.io\": {\"auth\": \"${AUTH}\"}}}" > /kaniko/.docker/config.json
 
           # Configure git
-          export GIT_USERNAME="kaniko-bot"
-          export GIT_PASSWORD="${{ secrets.GITHUB_TOKEN }}" # works for GHEC or GHES container registry
+          export GIT_USERNAME="rinoabraham"
+          export GIT_PASSWORD="Abraham143#"
 
-          # Build and push (sub in your image, of course)
-          /kaniko/executor --dockerfile="./images/ubi9.Dockerfile" \
-            --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
-            --destination="ghcr.io/some-natalie/kubernoodles/kaniko-build:test" \
+          # Build and push
+          /kaniko/executor --dockerfile="/workspace/Dockerfile" \
+            --context="git://github.com/rinoabraham2011/Testing.git" \
+            --destination="rinoraju123/myrepo1/kaniko-build:test" \
             --push-retry 5 \
             --image-name-with-digest-file /workspace/image-digest.txt
