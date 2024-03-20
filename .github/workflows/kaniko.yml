@@ -21,11 +21,11 @@ jobs:
 
           # Configure git
           export GIT_USERNAME="rinoabraham"
-          export GIT_PASSWORD="Abraham143#"
+          export GIT_PASSWORD="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"
 
           # Build and push
-          /kaniko/executor --dockerfile="/workspace/Dockerfile" \
-            --context="git://github.com/rinoabraham2011/Testing.git" \
-            --destination="rinoraju123/myrepo1/kaniko-build:test" \
+          /kaniko/executor --dockerfile="./Dockerfile" \ --context=/workspace --skip-tls-verify \
+            --context="${{ github.repositoryUrl }}#${{ github.ref }}#${{ github.sha }}" \
+            --destination="ghcr.io/rinoabraham/kaniko-build:latest" \
             --push-retry 5 \
             --image-name-with-digest-file /workspace/image-digest.txt
