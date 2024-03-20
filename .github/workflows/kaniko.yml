@@ -21,7 +21,7 @@ jobs:
 
           # Configure git
           export GIT_USERNAME="rinoabraham"
-          export GIT_PASSWORD="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"
+          export GIT_PASSWORD="${{ secrets.PAT_TOKEN }}"
 
           # Build and push
           /kaniko/executor --dockerfile="./Dockerfile" \ --context=/workspace --skip-tls-verify \
