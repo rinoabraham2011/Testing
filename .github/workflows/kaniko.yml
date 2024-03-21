@@ -7,7 +7,7 @@ jobs:
   build:
     runs-on: [arc-runner]
     container:
-      image: gcr.io/kaniko-project/executor:debug
+      image: gcr.io/kaniko-project/executor:v1.9.1-debug
     permissions:
       contents: read
       packages: write
@@ -18,6 +18,7 @@ jobs:
           # Write config file
           AUTH=$(echo -n ${{ github.actor }}:${{ secrets.GITHUB_TOKEN }} | base64)
           echo "{\"auths\": {\"ghcr.io\": {\"auth\": \"${AUTH}\"}}}" > /kaniko/.docker/config.json
+          cat /kaniko/.docker/config.json
 
           # Configure git
           export GIT_USERNAME="rinoabraham"
